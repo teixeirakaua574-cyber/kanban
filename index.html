@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kanban Board</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar" aria-label="Cabeçalho do quadro Kanban">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">✓</div>
+          <h1>Kanban Board</h1>
+        </div>
+
+        <div class="toolbar">
+          <button id="themeToggle" class="ghost-button" type="button" aria-label="Alternar tema do painel" aria-pressed="false">
+            🌙 Escuro
+          </button>
+          <button id="addTaskBtn" class="primary-button" type="button" aria-label="Adicionar nova tarefa">
+            + Adicionar nova tarefa
+          </button>
+        </div>
+      </header>
+
+      <main class="board" aria-label="Colunas do Kanban">
+        <section class="column" aria-labelledby="todo-heading">
+          <div class="column-header">
+            <div class="column-title-wrap">
+              <span class="status-indicator status-todo" aria-hidden="true"></span>
+              <h2 id="todo-heading" class="column-title">A Fazer</h2>
+            </div>
+            <span id="count-todo" class="count-badge" aria-live="polite">0</span>
+          </div>
+          <div class="task-list" data-status="todo" aria-label="Lista de tarefas a fazer"></div>
+        </section>
+
+        <section class="column" aria-labelledby="doing-heading">
+          <div class="column-header">
+            <div class="column-title-wrap">
+              <span class="status-indicator status-doing" aria-hidden="true"></span>
+              <h2 id="doing-heading" class="column-title">Em Andamento</h2>
+            </div>
+            <span id="count-doing" class="count-badge" aria-live="polite">0</span>
+          </div>
+          <div class="task-list" data-status="doing" aria-label="Lista de tarefas em andamento"></div>
+        </section>
+
+        <section class="column" aria-labelledby="done-heading">
+          <div class="column-header">
+            <div class="column-title-wrap">
+              <span class="status-indicator status-done" aria-hidden="true"></span>
+              <h2 id="done-heading" class="column-title">Concluído</h2>
+            </div>
+            <span id="count-done" class="count-badge" aria-live="polite">0</span>
+          </div>
+          <div class="task-list" data-status="done" aria-label="Lista de tarefas concluídas"></div>
+        </section>
+      </main>
+    </div>
+
+    <div id="taskModal" class="modal" aria-hidden="true">
+      <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <button id="closeModalBtn" class="modal-close" type="button" aria-label="Fechar modal">×</button>
+
+        <h2 id="modalTitle">Adicionar nova tarefa</h2>
+        <p class="modal-subtitle">Crie uma atividade e envie para a coluna de início.</p>
+
+        <form id="taskForm" novalidate>
+          <div class="field-group">
+            <label for="taskTitle">Título</label>
+            <input id="taskTitle" name="taskTitle" type="text" maxlength="120" placeholder="Ex.: Revisar briefing do projeto" aria-describedby="taskTitleError" required />
+            <div id="taskTitleError" class="field-error" role="alert" aria-live="assertive"></div>
+          </div>
+
+          <div class="field-group">
+            <label for="taskDescription">Descrição</label>
+            <textarea id="taskDescription" name="taskDescription" maxlength="600" placeholder="Descreva os detalhes da atividade (opcional)"></textarea>
+          </div>
+
+          <div class="modal-actions">
+            <button id="cancelTaskBtn" class="secondary-button" type="button">Cancelar</button>
+            <button class="primary-button" type="submit">Salvar tarefa</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>
