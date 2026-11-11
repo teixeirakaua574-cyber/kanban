@@ -1,3 +1,24 @@
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut
+} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyB5JqSrNI2fX8uaCxrsWhwCkEFFSjgtRgM',
+  authDomain: 'kanban-3ca38.firebaseapp.com',
+  projectId: 'kanban-3ca38',
+  storageBucket: 'kanban-3ca38.firebasestorage.app',
+  messagingSenderId: '467468722923',
+  appId: '1:467468722923:web:8e3f88206d5dc17ca9d4ae',
+  measurementId: 'G-38F3MMJ1BN'
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+
 // Persistência
       const STORAGE_KEY = 'kanban-board-v1';
       const THEME_KEY = 'kanban-board-theme';
@@ -22,6 +43,14 @@
       let draggedTaskId = null;
       let themePreference = 'system';
 
+      const loginScreen = document.getElementById('loginScreen');
+      const appShell = document.getElementById('appShell');
+      const loginForm = document.getElementById('loginForm');
+      const loginEmailInput = document.getElementById('loginEmail');
+      const loginPasswordInput = document.getElementById('loginPassword');
+      const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+      const loginMessage = document.getElementById('loginMessage');
+      const logoutBtn = document.getElementById('logoutBtn');
       const taskListEls = Array.from(document.querySelectorAll('.task-list'));
       const modalEl = document.getElementById('taskModal');
       const taskForm = document.getElementById('taskForm');
@@ -32,6 +61,77 @@
       const addTaskBtn = document.getElementById('addTaskBtn');
       const closeModalBtn = document.getElementById('closeModalBtn');
       const cancelTaskBtn = document.getElementById('cancelTaskBtn');
+
+      function showApp() {
+        loginScreen.hidden = true;
+        appShell.hidden = false;
+      }
+
+      function showLogin() {
+        appShell.hidden = true;
+        loginScreen.hidden = false;
+        requestAnimationFrame(() => loginEmailInput.focus());
+      }
+
+      togglePasswordBtn.addEventListener('click', () => {
+        const isPasswordHidden = loginPasswordInput.type === 'password';
+        loginPasswordInput.type = isPasswordHidden ? 'text' : 'password';
+        togglePasswordBtn.textContent = isPasswordHidden ? 'Ocultar' : 'Mostrar';
+        togglePasswordBtn.setAttribute('aria-label', isPasswordHidden ? 'Ocultar senha' : 'Mostrar senha');
+        togglePasswordBtn.setAttribute('aria-pressed', String(isPasswordHidden));
+      });
+
+      const loginSubmitBtn = loginForm.querySelector('button[type="submit"]');
+
+      function getLoginErrorMessage(error) {
+        const messages = {
+          'auth/invalid-credential': 'Email ou senha incorretos.',
+          'auth/invalid-email': 'Digite um email válido.',
+          'auth/user-disabled': 'Esta conta está desativada.',
+          'auth/too-many-requests': 'Muitas tentativas. Aguarde e tente novamente.',
+          'auth/network-request-failed': 'Falha de conexão. Verifique sua internet.',
+          'auth/configuration-not-found': 'Configure o Firebase Authentication e habilite o acesso por email e senha no Console Firebase.',
+          'auth/operation-not-allowed': 'Ative o acesso por email e senha no Firebase Authentication.'
+        };
+
+        return messages[error.code] || 'Não foi possível entrar. Tente novamente.';
+      }
+
+      loginForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const email = loginEmailInput.value.trim().toLowerCase();
+        const password = loginPasswordInput.value;
+
+        if (!email || !password) {
+          loginMessage.textContent = 'Informe seu email e sua senha.';
+          return;
+        }
+
+        loginSubmitBtn.disabled = true;
+        loginSubmitBtn.textContent = 'Entrando...';
+
+        try {
+          await signInWithEmailAndPassword(auth, email, password);
+          loginMessage.textContent = '';
+          loginForm.reset();
+        } catch (error) {
+          loginMessage.textContent = getLoginErrorMessage(error);
+        } finally {
+          loginSubmitBtn.disabled = false;
+          loginSubmitBtn.textContent = 'Entrar';
+        }
+      });
+
+      logoutBtn.addEventListener('click', async () => {
+        logoutBtn.disabled = true;
+        try {
+          await signOut(auth);
+        } catch (error) {
+          loginMessage.textContent = 'Não foi possível encerrar a sessão. Tente novamente.';
+        } finally {
+          logoutBtn.disabled = false;
+        }
+      });
 
       function safeStorageGet(key) {
         try {
@@ -381,3 +481,11 @@
       loadTasks();
       loadThemePreference();
       renderBoard();
+
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          showApp();
+        } else {
+          showLogin();
+        }
+      });

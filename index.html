@@ -7,7 +7,35 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="app">
+    <section id="loginScreen" class="login-screen">
+      <form id="loginForm" class="login-card" novalidate>
+        <div class="login-brand">
+          <div class="brand-mark" aria-hidden="true">✓</div>
+          <div>
+            <p class="login-eyebrow">Acesso ao painel</p>
+            <h1>Kanban Board</h1>
+          </div>
+        </div>
+
+        <div class="login-field">
+          <label for="loginEmail">Email</label>
+          <input id="loginEmail" name="email" type="email" autocomplete="username" placeholder="seu@email.com" required />
+        </div>
+
+        <div class="login-field">
+          <label for="loginPassword">Senha</label>
+          <div class="password-input-wrap">
+            <input id="loginPassword" name="password" type="password" autocomplete="current-password" placeholder="Digite sua senha" required />
+            <button id="togglePasswordBtn" class="password-toggle" type="button" aria-label="Mostrar senha" aria-pressed="false">Mostrar</button>
+          </div>
+        </div>
+
+        <p id="loginMessage" class="login-message" role="alert" aria-live="polite"></p>
+        <button class="primary-button login-submit" type="submit">Entrar</button>
+      </form>
+    </section>
+
+    <div id="appShell" class="app" hidden>
       <header class="topbar" aria-label="Cabeçalho do quadro Kanban">
         <div class="brand">
           <div class="brand-mark" aria-hidden="true">✓</div>
@@ -18,6 +46,7 @@
           <button id="themeToggle" class="ghost-button" type="button" aria-label="Alternar tema do painel" aria-pressed="false">
             🌙 Escuro
           </button>
+          <button id="logoutBtn" class="ghost-button" type="button">Sair</button>
           <button id="addTaskBtn" class="primary-button" type="button" aria-label="Adicionar nova tarefa">
             + Adicionar nova tarefa
           </button>
@@ -87,6 +116,6 @@
       </div>
     </div>
 
-    <script src="script.js" defer></script>
+    <script src="script.js" type="module"></script>
   </body>
 </html>
