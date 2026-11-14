@@ -1,0 +1,21 @@
+{
+  "hosting": {
+    "public": ".",
+    "rewrites": [
+      { "source": "/board/**", "destination": "/index.html" },
+      { "source": "**", "destination": "/index.html" }
+    ],
+    "ignore": [
+      "firebase.json",
+      "firestore.rules",
+      "README.md",
+      "**/.*",
+      "**/node_modules/**",
+      "data/**",
+      ".qodo/**"
+    ]
+  },
+  "firestore": {
+    "rules": "firestore.rules"
+  }
+}

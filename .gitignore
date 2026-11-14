@@ -1,0 +1,10 @@
+data/
+.env
+.env.*
+!.env.example
+*.tmp
+node_modules/
+.firebase/
+.netlify/
+firebase-debug.log
+.firebaserc
