@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="kanban-api-url" content="" />
+    <title>Tarefa | Kanban Board</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main id="taskPage" class="task-page" hidden>
+      <header class="task-page-header">
+        <a class="secondary-button" href="/">← Voltar ao quadro</a>
+        <span id="taskBoardName" class="board-role"></span>
+      </header>
+      <section id="taskDetails" class="task-detail-card"></section>
+      <section id="aiSubtasksSection" class="task-detail-card" hidden>
+        <h2>Subtarefas sugeridas por IA</h2>
+        <p>As sugestões não serão adicionadas automaticamente à tarefa.</p>
+        <button id="generateSubtasksButton" class="secondary-button" type="button">Gerar subtarefas</button>
+        <p id="aiSubtasksMessage" class="app-message" role="status" aria-live="polite"></p>
+        <ul id="aiSubtasksList" class="dod-list"></ul>
+      </section>
+      <section class="task-detail-card">
+        <h2>Definition of Done</h2>
+        <p>Confirme todos os critérios antes de mover a tarefa para a última coluna.</p>
+        <ul id="taskDodList" class="dod-list"></ul>
+        <label id="taskDodControl" class="dod-checkbox" hidden>
+          <input id="taskDodCheckbox" type="checkbox" />
+          DoD cumprida
+        </label>
+      </section>
+      <section class="task-detail-card comments-section">
+        <h2>Comentários</h2>
+        <div id="commentsList" class="comments-list"></div>
+        <form id="commentForm" class="comment-form" hidden>
+          <label for="commentText">Adicionar comentário</label>
+          <div class="mention-wrap">
+            <textarea id="commentText" maxlength="4000" rows="4" required></textarea>
+            <div id="mentionSuggestions" class="mention-suggestions" hidden></div>
+          </div>
+          <button class="primary-button" type="submit">Enviar comentário</button>
+        </form>
+      </section>
+      <p id="taskMessage" class="app-message" role="status" aria-live="polite"></p>
+    </main>
+    <section id="taskLogin" class="login-screen" hidden>
+      <form id="taskLoginForm" class="login-card">
+        <h1>Entre para ver esta tarefa</h1>
+        <label for="taskLoginEmail">Email</label>
+        <input id="taskLoginEmail" type="email" autocomplete="username" required />
+        <label for="taskLoginPassword">Senha</label>
+        <input id="taskLoginPassword" type="password" autocomplete="current-password" minlength="6" required />
+        <div id="taskConfirmPasswordField" class="login-field" hidden>
+          <label for="taskConfirmPassword">Confirmar senha</label>
+          <input id="taskConfirmPassword" type="password" autocomplete="new-password" minlength="6" />
+        </div>
+        <p id="taskLoginMessage" class="login-message" role="alert"></p>
+        <button id="taskAuthSubmitButton" class="primary-button login-submit" type="submit">Entrar</button>
+        <button id="taskAuthModeButton" class="auth-mode-button" type="button">Ainda não tem conta? Criar conta</button>
+      </form>
+    </section>
+    <script src="/task.js" type="module"></script>
+  </body>
+</html>

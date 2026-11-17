@@ -1,21 +1,23 @@
 {
+  "firestore": {
+    "rules": "firestore.rules"
+  },
   "hosting": {
     "public": ".",
-    "rewrites": [
-      { "source": "/board/**", "destination": "/index.html" },
-      { "source": "**", "destination": "/index.html" }
-    ],
     "ignore": [
       "firebase.json",
       "firestore.rules",
-      "README.md",
+      "package.json",
+      "package-lock.json",
+      "server/**",
       "**/.*",
-      "**/node_modules/**",
-      "data/**",
-      ".qodo/**"
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/tasks/**",
+        "destination": "/task.html"
+      }
     ]
-  },
-  "firestore": {
-    "rules": "firestore.rules"
   }
 }
